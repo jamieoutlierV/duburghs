@@ -3,856 +3,157 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Duburghs — Wilderness Sanctuaries</title>
+<title>Duburgh’s</title>
+<meta name="description" content="Duburgh’s — Luxury is a sense of place.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%231a3a2a'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-size='18' font-weight='300' fill='%23f4f1ec'%3ED%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cinzel:wght@300;400&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
-:root {
-  --ink:        #16120e;
-  --deep:       #0c0a07;
-  --parchment:  #f2ebe0;
-  --vellum:     #e5dace;
-  --earth:      #8b6f47;
-  --warm-earth: #a07848;
-  --rust:       #7a4a2c;
-  --moss:       #3d4a35;
-  --sage:       #6a7a5e;
-  --gold:       #c4923a;
-  --gold-light: #d4a84a;
-  --ash:        #b8aa98;
-  --bone:       #d4c8b5;
-  --charcoal:   #2a2318;
-}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  background:var(--ink);color:var(--parchment);
-  font-family:'Lora',serif;font-size:1.1rem;line-height:1.75;
-  overflow-x:hidden;cursor:none;
-}
-/* CURSOR */
-.cur{position:fixed;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);}
-#cur-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;transition:width .25s,height .25s;}
-#cur-ring{width:32px;height:32px;border:1px solid rgba(196,146,58,.35);border-radius:50%;transition:width .4s,height .4s;}
-/* GRAIN */
-body::after{
-  content:'';position:fixed;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.045'/%3E%3C/svg%3E");
-  pointer-events:none;z-index:9000;opacity:.7;
-}
-/* NAV */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:800;
-  padding:1.8rem 3.5rem;
-  display:flex;justify-content:space-between;align-items:center;
-  background:linear-gradient(180deg,rgba(12,10,7,.9) 0%,transparent 100%);
-}
-.nav-mark{display:flex;flex-direction:column;gap:.2rem;text-decoration:none;}
-.nav-mark-main{font-family:'Cinzel',serif;font-weight:300;font-size:.8rem;letter-spacing:.5em;text-transform:uppercase;color:var(--parchment);}
-.nav-mark-sub{font-family:'Lora',serif;font-style:italic;font-size:.65rem;color:var(--earth);letter-spacing:.1em;}
-.nav-links{display:flex;gap:2.5rem;align-items:center;}
-.nav-links a{font-family:'Cinzel',serif;font-weight:300;font-size:.58rem;letter-spacing:.35em;text-transform:uppercase;color:var(--ash);text-decoration:none;transition:color .4s;}
-.nav-links a:hover{color:var(--gold);}
-.nav-cta{color:var(--ink)!important;background:var(--gold);padding:.6rem 1.4rem;transition:background .4s!important;}
-.nav-cta:hover{background:var(--gold-light)!important;}
-/* HERO */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:10vh;position:relative;overflow:hidden;}
-.hero-canvas{
-  position:absolute;inset:0;
-  background:radial-gradient(ellipse 100% 70% at 50% 100%,rgba(139,111,71,.12) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 20%,rgba(61,74,53,.08) 0%,transparent 60%),linear-gradient(180deg,var(--deep) 0%,#130e09 50%,#1a1208 100%);
-}
-.hero-landscape{position:absolute;bottom:0;left:0;right:0;height:55%;opacity:.18;}
-.particle{position:absolute;width:1px;height:1px;background:var(--gold);border-radius:50%;animation:drift var(--dur,20s) var(--delay,0s) ease-in-out infinite alternate;opacity:var(--op,.3);}
-@keyframes drift{0%{transform:translate(0,0);opacity:var(--op,.3);}100%{transform:translate(var(--dx,20px),var(--dy,-40px));opacity:calc(var(--op,.3)*1.8);}}
-.hero-content{position:relative;z-index:10;padding:0 3.5rem;max-width:920px;opacity:0;animation:heroReveal 2.5s .5s cubic-bezier(.16,1,.3,1) forwards;}
-@keyframes heroReveal{from{opacity:0;transform:translateY(50px);}to{opacity:1;transform:none;}}
-.hero-eyebrow{font-family:'Cinzel',serif;font-weight:300;font-size:.58rem;letter-spacing:.7em;text-transform:uppercase;color:var(--gold);margin-bottom:2.5rem;display:block;}
-.hero-h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(4rem,11vw,9.5rem);line-height:.92;letter-spacing:-.02em;color:var(--parchment);margin-bottom:3rem;}
-.hero-h1 em{font-style:italic;color:var(--bone);}
-.hero-h1 .sub-word{display:block;font-size:clamp(1.1rem,2.5vw,2rem);letter-spacing:.1em;font-style:italic;color:var(--ash);margin-top:.7rem;}
-.hero-columns{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:end;margin-top:1rem;}
-.hero-statement{font-style:italic;color:var(--ash);font-size:1.05rem;line-height:1.85;border-left:1px solid rgba(196,146,58,.3);padding-left:2rem;}
-.hero-actions{display:flex;flex-direction:column;gap:1.5rem;align-items:flex-start;}
-.btn-primary{font-family:'Cinzel',serif;font-weight:300;font-size:.6rem;letter-spacing:.45em;text-transform:uppercase;color:var(--ink);background:var(--gold);padding:1rem 2.5rem;text-decoration:none;transition:background .4s,transform .3s;display:inline-block;}
-.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px);}
-.btn-secondary{font-family:'Cinzel',serif;font-weight:300;font-size:.58rem;letter-spacing:.4em;text-transform:uppercase;color:var(--ash);text-decoration:none;display:inline-flex;align-items:center;gap:.8rem;transition:color .4s;}
-.btn-secondary::after{content:'';display:inline-block;width:30px;height:1px;background:currentColor;transition:width .4s;}
-.btn-secondary:hover{color:var(--gold);}
-.btn-secondary:hover::after{width:50px;}
-.hero-horizon{position:absolute;bottom:30%;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(196,146,58,.25) 30%,rgba(196,146,58,.6) 50%,rgba(196,146,58,.25) 70%,transparent);transform:scaleX(0);animation:hLine 3s 1s cubic-bezier(.16,1,.3,1) forwards;}
-@keyframes hLine{to{transform:scaleX(1);}}
-/* COVENANT */
-.covenant{padding:14rem 0;background:var(--charcoal);position:relative;overflow:hidden;}
-.covenant-bg-word{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-5deg);font-family:'Cormorant Garamond',serif;font-weight:300;font-size:28vw;color:transparent;-webkit-text-stroke:1px rgba(139,111,71,.05);white-space:nowrap;pointer-events:none;user-select:none;letter-spacing:-.03em;}
-.covenant-inner{max-width:1300px;margin:0 auto;padding:0 3.5rem;display:grid;grid-template-columns:5fr 4fr;gap:10rem;align-items:start;}
-.cov-label{font-family:'Cinzel',serif;font-weight:300;font-size:.58rem;letter-spacing:.6em;text-transform:uppercase;color:var(--gold);margin-bottom:3rem;display:block;}
-.cov-left h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.2rem,4.5vw,4rem);line-height:1.1;color:var(--parchment);margin-bottom:3.5rem;}
-.cov-left h2 em{font-style:italic;color:var(--bone);}
-.cov-left p{font-size:1.1rem;color:var(--ash);line-height:1.95;margin-bottom:1.8rem;}
-.cov-left p strong{color:var(--parchment);font-weight:400;}
-.cov-right{padding-top:6rem;}
-.cov-aside{border:1px solid rgba(139,111,71,.25);padding:3rem;position:relative;}
-.cov-aside::before{content:'';position:absolute;top:-1px;left:2rem;right:2rem;height:1px;background:var(--gold);}
-.cov-aside-label{font-family:'Cinzel',serif;font-weight:300;font-size:.52rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;display:block;}
-.cov-aside blockquote{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:1.6rem;line-height:1.5;color:var(--parchment);margin-bottom:1.5rem;}
-.cov-aside cite{font-family:'Cinzel',serif;font-weight:300;font-size:.52rem;letter-spacing:.35em;text-transform:uppercase;color:var(--earth);font-style:normal;}
-/* KEEPERS */
-.keepers{padding:14rem 0;background:var(--ink);position:relative;overflow:hidden;}
-.keepers-inner{max-width:1300px;margin:0 auto;padding:0 3.5rem;}
-.keepers-header{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:end;margin-bottom:8rem;}
-.keepers-header h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.5rem,5vw,4.5rem);line-height:1.05;color:var(--parchment);}
-.keepers-header h2 em{font-style:italic;color:var(--bone);}
-.keepers-header-text p{font-style:italic;color:var(--ash);font-size:1.05rem;line-height:1.9;margin-bottom:1.2rem;}
-.keepers-scroll{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
-.keeper-card{background:var(--charcoal);padding:3.5rem 2.5rem;position:relative;overflow:hidden;border-top:1px solid rgba(139,111,71,.15);transition:background .5s;}
-.keeper-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--rust),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .7s cubic-bezier(.16,1,.3,1);}
-.keeper-card:hover::after{transform:scaleX(1);}
-.keeper-card:hover{background:#221c14;}
-.keeper-place{font-family:'Cinzel',serif;font-weight:300;font-size:.5rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;display:block;}
-.keeper-role{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1.5rem;color:var(--parchment);margin-bottom:.5rem;line-height:1.2;}
-.keeper-name{font-style:italic;color:var(--earth);font-size:1rem;margin-bottom:1.8rem;display:block;}
-.keeper-desc{font-size:.88rem;color:var(--ash);line-height:1.85;}
-.keeper-lineage{margin-top:2rem;font-family:'Cinzel',serif;font-weight:300;font-size:.48rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(139,111,71,.5);}
-/* SANCTUARIES */
-.sanctuaries{padding:14rem 0;background:#111009;position:relative;overflow:hidden;}
-.sanctuaries-inner{max-width:1300px;margin:0 auto;padding:0 3.5rem;}
-.sanct-header{margin-bottom:7rem;}
-.sanct-header h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.5rem,5vw,4.5rem);color:var(--parchment);line-height:1.05;}
-.sanct-list{display:flex;flex-direction:column;}
-.sanct-item{display:grid;grid-template-columns:80px 1fr 1fr auto;gap:4rem;align-items:center;padding:3.5rem 0;border-top:1px solid rgba(139,111,71,.18);position:relative;transition:all .4s;}
-.sanct-item:last-child{border-bottom:1px solid rgba(139,111,71,.18);}
-.sanct-item::before{content:'';position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(90deg,rgba(196,146,58,.04),transparent);transform:translateX(-100%);transition:transform .7s cubic-bezier(.16,1,.3,1);}
-.sanct-item:hover::before{transform:translateX(0);}
-.sanct-num{font-family:'Cinzel',serif;font-weight:300;font-size:.55rem;letter-spacing:.3em;color:var(--earth);}
-.sanct-name{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:2.2rem;color:var(--parchment);line-height:1;transition:color .4s;}
-.sanct-item:hover .sanct-name{color:var(--gold);}
-.sanct-loc{font-family:'Cinzel',serif;font-weight:300;font-size:.52rem;letter-spacing:.4em;text-transform:uppercase;color:var(--earth);margin-top:.5rem;display:block;}
-.sanct-essence{font-style:italic;color:var(--ash);font-size:.95rem;line-height:1.7;}
-.sanct-badge{font-family:'Cinzel',serif;font-weight:300;font-size:.5rem;letter-spacing:.4em;text-transform:uppercase;display:inline-block;padding:.4rem 1rem;border:1px solid;}
-.open{color:var(--sage);border-color:var(--sage);}
-.soon{color:var(--gold);border-color:var(--gold);}
-.future{color:rgba(139,111,71,.4);border-color:rgba(139,111,71,.3);}
-/* COMPACT */
-.compact{padding:16rem 0;background:var(--deep);position:relative;overflow:hidden;}
-.compact-inner{max-width:1100px;margin:0 auto;padding:0 3.5rem;text-align:center;}
-.compact-ornament{display:block;margin:0 auto 4rem;width:1px;height:80px;background:linear-gradient(180deg,transparent,var(--gold),transparent);}
-.compact h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4.5vw,3.8rem);line-height:1.2;color:var(--parchment);margin-bottom:1.5rem;}
-.compact h2 em{font-style:italic;color:var(--bone);}
-.compact-intro{font-style:italic;color:var(--ash);font-size:1.1rem;max-width:600px;margin:0 auto 7rem;line-height:1.9;}
-.compact-terms{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4rem;text-align:left;margin-bottom:6rem;}
-.compact-term{padding-top:2rem;border-top:1px solid rgba(139,111,71,.2);position:relative;}
-.compact-term::before{content:'';position:absolute;top:-1px;left:0;width:0;height:1px;background:var(--gold);transition:width 1s cubic-bezier(.16,1,.3,1);}
-.compact-term.visible::before{width:100%;}
-.compact-term-num{font-family:'Cinzel',serif;font-weight:300;font-size:.5rem;letter-spacing:.5em;color:var(--gold);margin-bottom:1.5rem;display:block;}
-.compact-term h3{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1.6rem;color:var(--parchment);margin-bottom:1rem;line-height:1.15;}
-.compact-term p{font-size:.9rem;color:var(--ash);line-height:1.85;}
-.compact-closing{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:1.4rem;color:var(--ash);line-height:1.7;max-width:600px;margin:0 auto;}
-/* VOICES */
-.voices{padding:12rem 0;background:var(--charcoal);overflow:hidden;}
-.voices-inner{max-width:1300px;margin:0 auto;padding:0 3.5rem;}
-.voices-header{margin-bottom:6rem;}
-.voices-header h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2rem,4vw,3.5rem);color:var(--parchment);}
-.voices-header h2 em{font-style:italic;}
-.voices-grid{display:grid;grid-template-columns:2fr 1fr 2fr;gap:3rem;align-items:start;}
-.voice{padding:3rem;background:rgba(12,10,7,.4);border-left:2px solid rgba(139,111,71,.25);transition:border-color .4s;}
-.voice:hover{border-color:var(--gold);}
-.voice-text{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:1.35rem;color:var(--parchment);line-height:1.65;margin-bottom:2rem;}
-.voice-source{font-family:'Cinzel',serif;font-weight:300;font-size:.5rem;letter-spacing:.45em;text-transform:uppercase;color:var(--earth);}
-.voice.central{background:rgba(196,146,58,.06);border:1px solid rgba(196,146,58,.2);padding:4rem;align-self:center;}
-.voice.central .voice-text{font-size:1.55rem;}
-/* REGISTER */
-.register{padding:16rem 0;background:var(--ink);}
-.register-inner{max-width:680px;margin:0 auto;padding:0 3.5rem;text-align:center;}
-.reg-ornament{font-size:1.2rem;color:rgba(196,146,58,.4);letter-spacing:.8em;margin-bottom:3rem;display:block;}
-.register h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.2rem,4.5vw,4rem);color:var(--parchment);line-height:1.1;margin-bottom:1.5rem;}
-.register h2 em{font-style:italic;}
-.register p{font-style:italic;color:var(--earth);font-size:1.05rem;margin-bottom:4rem;line-height:1.85;}
-.reg-form{border:1px solid rgba(139,111,71,.35);display:flex;margin-bottom:1.5rem;transition:border-color .4s;}
-.reg-form:focus-within{border-color:var(--gold);}
-.reg-form input{flex:1;background:transparent;border:none;padding:1.2rem 1.8rem;font-family:'Lora',serif;font-style:italic;font-size:.95rem;color:var(--parchment);outline:none;}
-.reg-form input::placeholder{color:var(--earth);opacity:.7;}
-.reg-form button{background:transparent;border:none;border-left:1px solid rgba(139,111,71,.35);padding:1.2rem 2rem;font-family:'Cinzel',serif;font-weight:300;font-size:.52rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);cursor:none;transition:background .4s,color .4s;}
-.reg-form button:hover{background:var(--gold);color:var(--ink);}
-.reg-note{font-family:'Cinzel',serif;font-weight:300;font-size:.5rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(139,111,71,.4);}
-/* FOOTER */
-footer{background:var(--deep);border-top:1px solid rgba(139,111,71,.1);padding:5rem 3.5rem;}
-.footer-inner{max-width:1300px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:4rem;}
-.footer-links{display:flex;gap:2.5rem;}
-.footer-links a{font-family:'Cinzel',serif;font-weight:300;font-size:.5rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(139,111,71,.4);text-decoration:none;transition:color .4s;}
-.footer-links a:hover{color:var(--gold);}
-.footer-logo{text-align:center;}
-.footer-logo-main{font-family:'Cinzel',serif;font-weight:300;font-size:.75rem;letter-spacing:.6em;text-transform:uppercase;color:var(--earth);display:block;margin-bottom:.3rem;}
-.footer-logo-sub{font-family:'Lora',serif;font-style:italic;font-size:.7rem;color:rgba(139,111,71,.4);}
-.footer-right{text-align:right;font-family:'Cinzel',serif;font-weight:300;font-size:.48rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(139,111,71,.3);line-height:2;}
-/* REVEAL */
-.reveal{opacity:0;transform:translateY(45px);transition:opacity 1.1s cubic-bezier(.16,1,.3,1),transform 1.1s cubic-bezier(.16,1,.3,1);}
-.reveal.visible{opacity:1;transform:none;}
-.rd1{transition-delay:.12s}.rd2{transition-delay:.24s}.rd3{transition-delay:.36s}.rd4{transition-delay:.48s}.rd5{transition-delay:.6s}
-/* SECTION LABEL */
-.section-label{font-family:'Cinzel',serif;font-weight:300;font-size:.58rem;letter-spacing:.6em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:2rem;}
-/* RESPONSIVE */
-@media(max-width:1100px){
-  .keepers-scroll{grid-template-columns:1fr 1fr;}
-  .covenant-inner{grid-template-columns:1fr;gap:4rem;}
-  .sanct-item{grid-template-columns:60px 1fr auto;gap:2rem;}
-  .sanct-essence{display:none;}
-  .compact-terms{grid-template-columns:1fr 1fr;}
-  .voices-grid{grid-template-columns:1fr;}
-  .keepers-header{grid-template-columns:1fr;gap:3rem;}
-  .footer-inner{grid-template-columns:1fr;text-align:center;}
-  .footer-links{justify-content:center;}
-  .footer-right{text-align:center;}
-}
-@media(max-width:768px){
-  nav{padding:1.5rem;}
-  .nav-links{display:none;}
-  .hero-content,.covenant-inner,.keepers-inner,.sanctuaries-inner,.compact-inner,.voices-inner,.register-inner,.attunement-inner{padding:0 1.5rem;}
-  .hero-columns{grid-template-columns:1fr;gap:2.5rem;}
-  .keepers-scroll{grid-template-columns:1fr;}
-  .compact-terms{grid-template-columns:1fr;}
-  .attune-grid{grid-template-columns:1fr!important;}
-  .attune-wave-row{grid-template-columns:1fr!important;}
-  footer{padding:3rem 1.5rem;}
-}
-
-/* ── EXPERIENCES ── */
-.experiences{padding:14rem 0;background:var(--deep);position:relative;overflow:hidden;}
-.experiences-inner{max-width:1300px;margin:0 auto;padding:0 3.5rem;}
-.exp-header{display:grid;grid-template-columns:1fr 1fr;gap:10rem;align-items:end;margin-bottom:9rem;}
-.exp-header h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.5rem,5vw,4.5rem);line-height:1.0;color:var(--parchment);}
-.exp-header h2 em{font-style:italic;color:var(--bone);}
-.exp-header-text{font-style:italic;color:var(--ash);font-size:1.05rem;line-height:1.95;border-left:1px solid rgba(196,146,58,.25);padding-left:2rem;}
-.exp-grid{display:grid;grid-template-columns:1.7fr 1fr 1fr;gap:2px;margin-bottom:0;}
-.exp-card{position:relative;overflow:hidden;padding:5rem 3.5rem 4rem;display:flex;flex-direction:column;min-height:640px;background:var(--charcoal);transition:background .6s;}
-.exp-card:hover{background:#211a12;}
-.exp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;transform:scaleX(0);transform-origin:left;transition:transform .8s cubic-bezier(.16,1,.3,1);}
-.exp-card:hover::before{transform:scaleX(1);}
-.exp-sanctuaries::before{background:linear-gradient(90deg,var(--moss),var(--sage));}
-.exp-residencies::before{background:linear-gradient(90deg,var(--rust),var(--warm-earth));}
-.exp-institutes::before{background:linear-gradient(90deg,#6a5a8a,#9a7aaa);}
-.exp-card-num{position:absolute;top:3rem;right:3rem;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:8rem;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.04);user-select:none;pointer-events:none;}
-.exp-type{font-family:'Cinzel',serif;font-weight:300;font-size:.5rem;letter-spacing:.6em;text-transform:uppercase;margin-bottom:3rem;display:flex;align-items:center;gap:1rem;}
-.exp-type-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
-.dot-sanctuary{background:var(--sage);}
-.dot-residency{background:var(--warm-earth);}
-.dot-institute{background:#9a7aaa;}
-.exp-sanctuaries .exp-type{color:var(--sage);}
-.exp-residencies .exp-type{color:var(--warm-earth);}
-.exp-institutes  .exp-type{color:#9a7aaa;}
-.exp-name{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.8rem,2.8vw,2.6rem);line-height:1.05;color:var(--parchment);margin-bottom:1rem;}
-.exp-name em{font-style:italic;}
-.exp-tag{font-style:italic;color:var(--earth);font-size:.95rem;margin-bottom:2.5rem;display:block;}
-.exp-divider{width:40px;height:1px;background:rgba(139,111,71,.3);margin-bottom:2.5rem;}
-.exp-desc{font-size:.92rem;color:var(--ash);line-height:1.9;flex:1;}
-.exp-desc p{margin-bottom:1rem;}
-.exp-desc strong{color:var(--parchment);font-weight:400;}
-.exp-qualities{margin-top:3rem;display:flex;flex-direction:column;gap:.8rem;border-top:1px solid rgba(139,111,71,.15);padding-top:2.5rem;}
-.exp-quality{display:flex;align-items:flex-start;gap:1rem;font-family:'Cinzel',serif;font-weight:300;font-size:.48rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(139,111,71,.55);line-height:1.6;}
-.exp-quality::before{content:'—';color:rgba(196,146,58,.35);flex-shrink:0;font-family:'Lora',serif;}
-.exp-locations{margin-top:2.5rem;display:flex;flex-wrap:wrap;gap:.6rem;}
-.exp-loc-tag{font-family:'Cinzel',serif;font-weight:300;font-size:.45rem;letter-spacing:.35em;text-transform:uppercase;padding:.35rem .9rem;border:1px solid rgba(139,111,71,.2);color:var(--earth);transition:border-color .3s,color .3s;}
-.exp-card:hover .exp-loc-tag{border-color:rgba(139,111,71,.4);color:var(--ash);}
-.exp-thread{display:grid;grid-template-columns:1.7fr 1fr 1fr;gap:2px;margin:2px 0 8rem;}
-.exp-thread-item{padding:2rem 3.5rem;border-top:1px solid rgba(139,111,71,.1);font-size:.85rem;font-style:italic;color:rgba(139,111,71,.4);line-height:1.7;}
-.exp-thread-item.primary{color:rgba(139,111,71,.65);}
-@media(max-width:1100px){
-  .exp-grid,.exp-thread{grid-template-columns:1fr;}
-  .exp-header{grid-template-columns:1fr;gap:3rem;}
-  .exp-card{min-height:auto;}
-}
-
-/* ATTUNEMENT */
-.attunement{
-  padding:16rem 0;
-  background:linear-gradient(180deg,#111009 0%,#0e0c08 50%,#131008 100%);
-  position:relative;overflow:hidden;
-}
-.attunement-inner{max-width:1300px;margin:0 auto;padding:0 3.5rem;}
-
-.attune-header{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:10rem;align-items:end;margin-bottom:10rem;
-}
-.attune-header h2{
-  font-family:'Cormorant Garamond',serif;font-weight:300;
-  font-size:clamp(2.5rem,5.5vw,5rem);line-height:.95;
-  color:var(--parchment);letter-spacing:-.01em;
-}
-.attune-header h2 em{font-style:italic;color:var(--bone);}
-.attune-header-right{padding-bottom:.5rem;}
-.attune-header-right p{
-  font-size:1.1rem;color:var(--ash);
-  line-height:1.95;font-style:italic;
-  border-left:1px solid rgba(196,146,58,.25);
-  padding-left:2rem;margin-bottom:1.5rem;
-}
-.attune-word{
-  font-family:'Cinzel',serif;font-weight:300;
-  font-size:.52rem;letter-spacing:.6em;text-transform:uppercase;
-  color:var(--gold);display:inline-block;
-  border-bottom:1px solid rgba(196,146,58,.3);
-  padding-bottom:.4rem;
-}
-
-/* Wave — animated rhythm visual */
-.attune-wave{
-  margin:0 0 10rem;
-  position:relative;
-  height:120px;
-  overflow:hidden;
-}
-.attune-wave-row{
-  display:grid;grid-template-columns:repeat(7,1fr);
-  gap:3px;height:100%;align-items:end;
-}
-.wave-bar{
-  background:linear-gradient(180deg,var(--gold),rgba(196,146,58,.15));
-  border-radius:2px 2px 0 0;
-  transform-origin:bottom;
-  animation:waveBar var(--wdur,3s) var(--wdelay,0s) ease-in-out infinite alternate;
-  opacity:.6;
-}
-@keyframes waveBar{
-  0%  {transform:scaleY(var(--wmin,.15));opacity:.3;}
-  100%{transform:scaleY(var(--wmax,1));opacity:.7;}
-}
-
-/* Rituals grid */
-.attune-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:1px;
-  background:rgba(139,111,71,.1);
-  margin-bottom:10rem;
-}
-.attune-ritual{
-  background:var(--ink);
-  padding:4rem 3rem;
-  position:relative;overflow:hidden;
-  transition:background .5s;
-}
-.attune-ritual::before{
-  content:'';position:absolute;
-  inset:0;
-  background:radial-gradient(ellipse 80% 80% at 50% 120%,rgba(196,146,58,.06),transparent);
-  opacity:0;transition:opacity .6s;
-}
-.attune-ritual:hover::before{opacity:1;}
-.attune-ritual:hover{background:#1a1510;}
-
-.ritual-tradition{
-  font-family:'Cinzel',serif;font-weight:300;
-  font-size:.48rem;letter-spacing:.6em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:2.5rem;display:block;
-}
-.ritual-name{
-  font-family:'Cormorant Garamond',serif;font-weight:300;
-  font-size:2rem;color:var(--parchment);
-  margin-bottom:.4rem;line-height:1.1;
-}
-.ritual-origin{
-  font-style:italic;color:var(--earth);
-  font-size:.9rem;margin-bottom:2rem;display:block;
-}
-.ritual-desc{
-  font-size:.9rem;color:var(--ash);line-height:1.9;
-  margin-bottom:2rem;
-}
-.ritual-hour{
-  font-family:'Cinzel',serif;font-weight:300;
-  font-size:.46rem;letter-spacing:.5em;text-transform:uppercase;
-  color:rgba(139,111,71,.45);
-  border-top:1px solid rgba(139,111,71,.15);
-  padding-top:1.5rem;margin-top:auto;display:block;
-}
-
-/* The attunement statement — full width pull quote */
-.attune-statement{
-  border-top:1px solid rgba(139,111,71,.2);
-  border-bottom:1px solid rgba(139,111,71,.2);
-  padding:6rem 0;
-  display:grid;
-  grid-template-columns:1fr 3fr;
-  gap:6rem;
-  align-items:center;
-}
-.attune-statement-label{
-  font-family:'Cinzel',serif;font-weight:300;
-  font-size:.52rem;letter-spacing:.55em;text-transform:uppercase;
-  color:var(--earth);line-height:2.5;
-  writing-mode:vertical-rl;
-  transform:rotate(180deg);
-  justify-self:center;
-}
-.attune-statement-text{
-  font-family:'Cormorant Garamond',serif;font-weight:300;
-  font-style:italic;
-  font-size:clamp(1.6rem,3vw,2.4rem);
-  color:var(--parchment);line-height:1.55;
-}
-.attune-statement-text em{
-  color:var(--gold);font-style:normal;
-}
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --off-white: #f4f1ec;
+    --off-white-dim: rgba(244, 241, 236, 0.55);
+    --off-white-faint: rgba(244, 241, 236, 0.3);
+    --off-white-ghost: rgba(244, 241, 236, 0.12);
+  }
+  html, body {
+    height: 100%;
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0a2018;
+    color: var(--off-white);
+    overflow: hidden;
+  }
+  .page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    position: relative;
+    background:
+      url('data:image/webp;base64,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')
+      center center / cover no-repeat;
+  }
+  .page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse at 50% 50%, transparent 20%, rgba(0,0,0,0.45) 100%),
+      linear-gradient(to bottom, rgba(0,10,5,0.25), rgba(0,10,5,0.35));
+  }
+  .page::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: radial-gradient(
+      ellipse at 50% 45%,
+      rgba(244,241,236,0.03) 0%,
+      transparent 50%
+    );
+  }
+  .brand {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .wordmark {
+    font-family: 'Inter', sans-serif;
+    font-weight: 200;
+    font-size: clamp(2.4rem, 6vw, 4.8rem);
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--off-white);
+    margin-bottom: 2.2rem;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+    opacity: 0;
+    animation: fadeUp 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+  }
+  .rule {
+    width: 80px;
+    height: 1px;
+    background: var(--off-white-dim);
+    margin: 0 auto 2.2rem;
+    opacity: 0;
+    animation: fadeUp 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+  }
+  .tagline {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    font-size: clamp(1rem, 2.2vw, 1.35rem);
+    letter-spacing: 0.04em;
+    color: var(--off-white-dim);
+    font-style: italic;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.25);
+    opacity: 0;
+    animation: fadeUp 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+  }
+  .values {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    padding: 1.8rem 2rem;
+    border-top: 1px solid var(--off-white-ghost);
+    z-index: 2;
+    opacity: 0;
+    animation: fadeUp 1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.4s forwards;
+  }
+  .values span {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: clamp(0.55rem, 1.2vw, 0.72rem);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--off-white-faint);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+  .status {
+    position: absolute;
+    top: 2.5rem;
+    right: 3rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--off-white-faint);
+    z-index: 2;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    opacity: 0;
+    animation: fadeUp 1.6s cubic-bezier(0.16, 1, 0.3, 1) 1.8s forwards;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (max-width: 600px) {
+    .values { gap: 1rem; padding: 1.2rem 1rem; }
+    .values span { font-size: 0.5rem; letter-spacing: 0.15em; }
+    .status { top: 1.5rem; right: 1.5rem; }
+  }
 </style>
 </head>
 <body>
-
-<div class="cur" id="cur-dot"></div>
-<div class="cur" id="cur-ring"></div>
-
-<nav>
-  <a href="#" class="nav-mark">
-    <span class="nav-mark-main">Duburghs</span>
-    <span class="nav-mark-sub">Where places receive you</span>
-  </a>
-  <div class="nav-links">
-    <a href="#experiences">Experiences</a>
-    <a href="#covenant">The Bond</a>
-    <a href="#keepers">The Keepers</a>
-    <a href="#attunement">Attunement</a>
-    <a href="#compact">The Compact</a>
-    <a href="#register" class="nav-cta">Private Access</a>
-  </div>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-canvas"></div>
-  <svg class="hero-landscape" viewBox="0 0 1440 400" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0 400 L0 280 Q120 200 200 230 Q280 260 340 180 Q400 100 480 140 Q560 180 620 120 Q680 60 760 90 Q840 120 900 80 Q960 40 1040 70 Q1120 100 1180 60 Q1240 20 1300 50 Q1360 80 1440 40 L1440 400 Z" fill="rgba(139,111,71,0.12)"/>
-    <path d="M0 400 L0 320 Q100 270 180 290 Q260 310 330 250 Q400 190 480 220 Q560 250 640 190 Q720 130 800 160 Q880 190 950 150 Q1020 110 1100 140 Q1180 170 1260 130 Q1340 90 1440 110 L1440 400 Z" fill="rgba(61,74,53,0.1)"/>
-    <path d="M0 400 L0 360 Q150 340 300 350 Q450 360 550 320 Q650 280 750 300 Q850 320 950 290 Q1050 260 1150 280 Q1250 300 1440 270 L1440 400 Z" fill="rgba(26,18,8,0.6)"/>
-  </svg>
-  <div class="particle" style="left:15%;top:30%;--dur:25s;--delay:0s;--dx:15px;--dy:-35px;--op:.25;"></div>
-  <div class="particle" style="left:72%;top:45%;--dur:32s;--delay:3s;--dx:-20px;--dy:-50px;--op:.2;"></div>
-  <div class="particle" style="left:45%;top:20%;--dur:28s;--delay:6s;--dx:25px;--dy:-30px;--op:.3;"></div>
-  <div class="particle" style="left:88%;top:60%;--dur:22s;--delay:1s;--dx:-15px;--dy:-40px;--op:.15;"></div>
-  <div class="hero-horizon"></div>
-  <div class="hero-content">
-    <span class="hero-eyebrow">Deep Nature · World Tradition · Sacred Bond</span>
-    <h1 class="hero-h1">
-      Du<em>burghs</em>
-      <span class="sub-word">You are not a guest. You are received.</span>
-    </h1>
-    <div class="hero-columns">
-      <p class="hero-statement">Each Duburghs sanctuary is held by a community of keepers — local custodians of place, practice, and memory — who receive guests not into a hotel, but into a living relationship with a land and its people.</p>
-      <div class="hero-actions">
-        <a href="#register" class="btn-primary">Request Private Access</a>
-        <a href="#covenant" class="btn-secondary">Discover the bond</a>
-      </div>
+  <div class="page">
+    <div class="status">Acquiring...</div>
+    <div class="brand">
+      <h1 class="wordmark">Duburgh's</h1>
+      <div class="rule"></div>
+      <p class="tagline">Luxury is a sense of place.</p>
+    </div>
+    <div class="values">
+      <span>Curation</span>
+      <span>Ritual</span>
+      <span>Stewardship</span>
     </div>
   </div>
-</section>
-
-<!-- EXPERIENCES -->
-<section class="experiences" id="experiences">
-  <div class="experiences-inner">
-
-    <div class="exp-header">
-      <div>
-        <span class="section-label reveal">Three Ways of Belonging</span>
-        <h2 class="reveal rd1">Every form of<br><em>deep belonging</em><br>has its own shape.</h2>
-      </div>
-      <p class="exp-header-text reveal rd2">Duburghs offers three distinct experiences — each rooted in the same philosophy of place, principal, and attunement, but answering different human needs. The Wilderness Sanctuaries are the heart. The Residencies offer solitude and self-determination. The Cultural Institutes offer transmission — the living knowledge of a city's inner life.</p>
-    </div>
-
-    <div class="exp-grid">
-
-      <!-- SANCTUARIES — dominant -->
-      <div class="exp-card exp-sanctuaries reveal">
-        <span class="exp-card-num">I</span>
-        <div class="exp-type"><span class="exp-type-dot dot-sanctuary"></span>The Foundation</div>
-        <h3 class="exp-name">Wilderness<br><em>Sanctuaries</em></h3>
-        <span class="exp-tag">Attunement through nature, ritual and the living calendar of place</span>
-        <div class="exp-divider"></div>
-        <div class="exp-desc">
-          <p>The original Duburghs experience. Each sanctuary sits in deep nature — forest, coast, mountain, plain — and is held by a community of principals whose knowledge of the land spans generations. Guests are received into a structured rhythm of daily ritual, seasonal practice, and genuine participation in the life of the place.</p>
-          <p>This is not a retreat from the world. It is an <strong>attunement to a deeper version of it</strong> — one that existed long before the modern pace, and continues in these places still.</p>
-        </div>
-        <div class="exp-qualities">
-          <div class="exp-quality">Minimum stay of seven nights</div>
-          <div class="exp-quality">Structured around the seasonal ritual calendar</div>
-          <div class="exp-quality">Principals lead all immersive practices</div>
-          <div class="exp-quality">Groups of no more than twelve guests</div>
-        </div>
-        <div class="exp-locations">
-          <span class="exp-loc-tag">Ardnamurchan</span>
-          <span class="exp-loc-tag">Alentejo</span>
-          <span class="exp-loc-tag">Shirakawa-gō</span>
-          <span class="exp-loc-tag">Rila</span>
-          <span class="exp-loc-tag">Patagonia</span>
-        </div>
-      </div>
-
-      <!-- RESIDENCIES -->
-      <div class="exp-card exp-residencies reveal rd1">
-        <span class="exp-card-num">II</span>
-        <div class="exp-type"><span class="exp-type-dot dot-residency"></span>The Dwelling</div>
-        <h3 class="exp-name">Private<br><em>Residencies</em></h3>
-        <span class="exp-tag">A house with deep memory, entirely yours for a season</span>
-        <div class="exp-divider"></div>
-        <div class="exp-desc">
-          <p>The Residencies are houses — not hotels. Each is a property of singular character: a working farmstead, a scholar's manor, a family home whose principals have chosen to receive a small number of long-stay guests into its life.</p>
-          <p>There is no programme. There is no schedule. There is the house, <strong>its character, its rhythm, and the discreet care of those who tend it</strong>. For those who need not a retreat but a dwelling — a temporary inhabiting of a life more rooted than their own.</p>
-        </div>
-        <div class="exp-qualities">
-          <div class="exp-quality">Minimum stay of two weeks</div>
-          <div class="exp-quality">Fully serviced, privately held</div>
-          <div class="exp-quality">No programme — rhythm is your own</div>
-          <div class="exp-quality">Principal family present, not intrusive</div>
-        </div>
-        <div class="exp-locations">
-          <span class="exp-loc-tag">Scotland</span>
-          <span class="exp-loc-tag">Burgundy</span>
-          <span class="exp-loc-tag">Umbria</span>
-          <span class="exp-loc-tag">Andalusia</span>
-        </div>
-      </div>
-
-      <!-- CULTURAL INSTITUTES -->
-      <div class="exp-card exp-institutes reveal rd2">
-        <span class="exp-card-num">III</span>
-        <div class="exp-type"><span class="exp-type-dot dot-institute"></span>The Salon</div>
-        <h3 class="exp-name">Cultural<br><em>Institutes</em></h3>
-        <span class="exp-tag">Living transmission of a city's highest culture</span>
-        <div class="exp-divider"></div>
-        <div class="exp-desc">
-          <p>The Duburghs Cultural Institutes are permanent addresses in three of the world's most culturally dense cities — not galleries, not clubs, but <strong>salons in the classical sense</strong>: places where the living practitioners of a culture receive those who wish to understand it at depth.</p>
-          <p>Curated talks, private access to restoration ateliers, archives, working artists, liturgical musicians, and historians who speak not about culture but from within it. The city as principal.</p>
-        </div>
-        <div class="exp-qualities">
-          <div class="exp-quality">Residential and day membership</div>
-          <div class="exp-quality">Curated programme, intimate scale</div>
-          <div class="exp-quality">Practitioners as principals, not lecturers</div>
-          <div class="exp-quality">Private access beyond public culture</div>
-        </div>
-        <div class="exp-locations">
-          <span class="exp-loc-tag">Venice</span>
-          <span class="exp-loc-tag">Vienna</span>
-          <span class="exp-loc-tag">Kyoto</span>
-        </div>
-      </div>
-
-    </div><!-- /exp-grid -->
-
-    <!-- Connecting thread -->
-    <div class="exp-thread">
-      <div class="exp-thread-item primary reveal">The Sanctuaries ask you to attune to the rhythm of deep nature — to be received by a land and its people, and to let that reception work on you over time.</div>
-      <div class="exp-thread-item reveal rd1">The Residencies ask only that you inhabit — slowly, without agenda — a place whose memory is longer than your visit.</div>
-      <div class="exp-thread-item reveal rd2">The Institutes ask you to learn — from practitioners, not institutions — what a city truly knows about how to live beautifully.</div>
-    </div>
-
-  </div>
-</section>
-
-<!-- THE BOND -->
-<section class="covenant" id="covenant">
-  <div class="covenant-bg-word">Bond</div>
-  <div class="covenant-inner">
-    <div class="cov-left">
-      <span class="cov-label reveal">The Sacred Bond</span>
-      <h2 class="reveal">A place is not a backdrop.<br>It is a <em>living</em> thing<br>with its own memory.</h2>
-      <div style="width:50px;height:1px;background:var(--earth);margin:3.5rem 0;" class="reveal rd1"></div>
-      <p class="reveal rd1">Duburghs was conceived from the belief that the deepest form of restoration comes not from being <strong>served</strong>, but from being <strong>known by a place</strong> — from entering into genuine relationship with its land, its people, and the long story they hold together.</p>
-      <p class="reveal rd2">Every property in the Duburghs collection is chosen for an irreducible quality of cultural and ecological depth. These are not locations selected for scenery. They are communities — with traditions of hospitality stretching back across generations — whose principals have chosen to enter into partnership and receive a small number of guests into their rhythm of life.</p>
-      <p class="reveal rd3">When you arrive at a Duburghs sanctuary, <strong>you are not checking into a hotel</strong>. You are crossing a threshold into a place that existed long before you and will endure long after. You are entrusted to it. That trust is the foundation of everything we do.</p>
-    </div>
-    <div class="cov-right reveal rd2">
-      <div class="cov-aside">
-        <span class="cov-aside-label">Jameson Duburgh · On Belonging</span>
-        <blockquote>"There are places in the world that still know how to hold a person — that ask something of you simply by being themselves. Duburghs exists to find those places and to honour the people who have always been their guardians."</blockquote>
-        <cite>— Jameson Duburgh, Founder</cite>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- THE KEEPERS -->
-<section class="keepers" id="keepers">
-  <div class="keepers-inner">
-    <div class="keepers-header">
-      <div>
-        <span class="section-label reveal">The Custodians of Place</span>
-        <h2 class="reveal rd1">The <em>Keepers</em><br>are the sanctuary.</h2>
-      </div>
-      <div class="keepers-header-text reveal rd2">
-        <p>At every Duburghs property, the experience is inseparable from its principals — the local artisans, knowledge holders, ritual practitioners, and community elders who co-author the sanctuary and receive guests into their world.</p>
-        <p>We do not employ a wellness team and deploy it to a location. We enter into partnership with the people who already hold the knowledge of a place, and we build around them.</p>
-      </div>
-    </div>
-    <div class="keepers-scroll">
-      <div class="keeper-card reveal">
-        <span class="keeper-place">Ardnamurchan · Scotland</span>
-        <div class="keeper-role">Keeper of the Fire</div>
-        <span class="keeper-name">Seòras MacPhàil</span>
-        <p class="keeper-desc">Seventh-generation peat-cutter and storyteller. Seòras holds the oral tradition of the Ardnamurchan peninsula — its bards, its disputes, its sacred wells. Each evening he tends the longhouse fire and, for those who wish it, speaks the land into presence.</p>
-        <div class="keeper-lineage">Principal · Lineage: 7 Generations · Gaelic Oral Tradition</div>
-      </div>
-      <div class="keeper-card reveal rd1">
-        <span class="keeper-place">Alentejo · Portugal</span>
-        <div class="keeper-role">Keeper of the Grove</div>
-        <span class="keeper-name">Mariana Fonseca</span>
-        <p class="keeper-desc">Cork farmer, herbalist, and practitioner of Alentejo's agricultural rhythms. Mariana leads guests through the seasonal life of the cork oak forest — from harvest to fermentation, from foraging to the table rituals of the region's oldest farmsteads.</p>
-        <div class="keeper-lineage">Principal · Lineage: 4 Generations · Cork Forest Heritage</div>
-      </div>
-      <div class="keeper-card reveal rd2">
-        <span class="keeper-place">Shirakawa-gō · Japan</span>
-        <div class="keeper-role">Keeper of the House</div>
-        <span class="keeper-name">Tanaka Hiroshi</span>
-        <p class="keeper-desc">Master of the gassho-zukuri farmhouse tradition. Tanaka-san maintains a living building — its thatching, its seasonal repairs, its daily rituals of sweeping and offering. Guests are invited to participate, not observe.</p>
-        <div class="keeper-lineage">Principal · Lineage: 9 Generations · Edo-period Heritage</div>
-      </div>
-      <div class="keeper-card reveal rd3">
-        <span class="keeper-place">Rila · Bulgaria</span>
-        <div class="keeper-role">Keeper of the Waters</div>
-        <span class="keeper-name">Elitsa Petkova</span>
-        <p class="keeper-desc">Ethnobotanist and practitioner of Rhodope mountain healing traditions. Elitsa leads guests to the high meadow springs used for centuries by the mountain communities, and holds the knowledge of the plants that grow in their margins.</p>
-        <div class="keeper-lineage">Principal · Rhodope Living Tradition</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SANCTUARIES -->
-<section class="sanctuaries" id="sanctuaries">
-  <div class="sanctuaries-inner">
-    <div class="sanct-header">
-      <span class="section-label reveal">The Properties</span>
-      <h2 class="reveal rd1">Places chosen for<br><em>depth</em>, not spectacle.</h2>
-    </div>
-    <div class="sanct-list">
-      <div class="sanct-item reveal">
-        <span class="sanct-num">01</span>
-        <div><div class="sanct-name">Ardnamurchan</div><span class="sanct-loc">Scottish Highlands · Moidart Peninsula</span></div>
-        <p class="sanct-essence">The westernmost point of mainland Britain — ancient land reaching into the Atlantic, held by Gaelic tradition and geological memory older than language.</p>
-        <div><span class="sanct-badge open">Open</span></div>
-      </div>
-      <div class="sanct-item reveal rd1">
-        <span class="sanct-num">02</span>
-        <div><div class="sanct-name">Alentejo</div><span class="sanct-loc">Southern Portugal · Cork Forest Interior</span></div>
-        <p class="sanct-essence">The great interior of Portugal — cork forest and wheat plain, Moorish stone, Roman road. A culture of slowness so old it has become a form of wisdom.</p>
-        <div><span class="sanct-badge open">Open</span></div>
-      </div>
-      <div class="sanct-item reveal rd2">
-        <span class="sanct-num">03</span>
-        <div><div class="sanct-name">Shirakawa-gō</div><span class="sanct-loc">Japanese Alps · Ōno District, Gifu</span></div>
-        <p class="sanct-essence">A UNESCO World Heritage village of gassho-zukuri farmhouses — snow architecture, communal labour, and domestic culture of extraordinary refinement, still lived.</p>
-        <div><span class="sanct-badge soon">Opening 2026</span></div>
-      </div>
-      <div class="sanct-item reveal rd3">
-        <span class="sanct-num">04</span>
-        <div><div class="sanct-name">Rila</div><span class="sanct-loc">Bulgarian Mountains · Rila Monastery Valley</span></div>
-        <p class="sanct-essence">A high valley surrounding the oldest continuously inhabited monastery in the Balkans — mountain springs, icon-painters, and an unbroken thread of Orthodox contemplative life.</p>
-        <div><span class="sanct-badge soon">Opening 2026</span></div>
-      </div>
-      <div class="sanct-item reveal rd4">
-        <span class="sanct-num">05</span>
-        <div><div class="sanct-name">Patagonia</div><span class="sanct-loc">Chilean Andes · Aysen Region</span></div>
-        <p class="sanct-essence">The last vast silence. A collaboration with the Kawésqar communities — the last sea nomads — and the estancias of the steppe frontier.</p>
-        <div><span class="sanct-badge future">2027</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ATTUNEMENT -->
-<section class="attunement" id="attunement">
-  <div class="attunement-inner">
-
-    <div class="attune-header">
-      <div>
-        <span class="section-label reveal">The Practice of Attunement</span>
-        <h2 class="reveal rd1">
-          The world has<br>its own <em>frequency.</em><br>You have forgotten<br>how to hear it.
-        </h2>
-      </div>
-      <div class="attune-header-right">
-        <p class="reveal rd2">
-          Attunement is what happens when you stop imposing your rhythm on a place and begin, instead, to let its rhythm enter you. It does not happen quickly. It requires the particular instrument of ritual — repeated, embodied, communal — through which the people of a place have always marked their time.
-        </p>
-        <p class="reveal rd3">
-          Every Duburghs stay is structured around the living ritual calendar of its sanctuary — not as spectacle or entertainment, but as genuine daily practice. You are invited to participate because participation is how attunement happens. There is no other way.
-        </p>
-        <span class="attune-word reveal rd4">Attuning takes time. We give you enough of it.</span>
-      </div>
-    </div>
-
-    <!-- Rhythm visualiser -->
-    <div class="attune-wave reveal">
-      <div class="attune-wave-row">
-        <div class="wave-bar" style="--wmin:.1;--wmax:.55;--wdur:4.2s;--wdelay:0s;"></div>
-        <div class="wave-bar" style="--wmin:.2;--wmax:.85;--wdur:3.1s;--wdelay:.4s;"></div>
-        <div class="wave-bar" style="--wmin:.35;--wmax:1;--wdur:5s;--wdelay:.2s;"></div>
-        <div class="wave-bar" style="--wmin:.15;--wmax:.7;--wdur:3.8s;--wdelay:.8s;"></div>
-        <div class="wave-bar" style="--wmin:.4;--wmax:.95;--wdur:4.5s;--wdelay:.1s;"></div>
-        <div class="wave-bar" style="--wmin:.1;--wmax:.6;--wdur:3.3s;--wdelay:.6s;"></div>
-        <div class="wave-bar" style="--wmin:.25;--wmax:.8;--wdur:4.9s;--wdelay:.3s;"></div>
-      </div>
-    </div>
-
-    <!-- Six rituals -->
-    <div class="attune-grid">
-
-      <div class="attune-ritual reveal">
-        <span class="ritual-tradition">Scotland · Gaelic</span>
-        <div class="ritual-name">The Kindling</div>
-        <span class="ritual-origin">Beannachadh an Teine — Blessing of the Fire</span>
-        <p class="ritual-desc">Each morning at Ardnamurchan begins with the lighting of the central fire — a practice carried unbroken from the age of the longhouse. Guests who wish to participate rise before dawn with Seòras. The words spoken are older than writing in this land.</p>
-        <span class="ritual-hour">Dawn · Daily · All seasons</span>
-      </div>
-
-      <div class="attune-ritual reveal rd1">
-        <span class="ritual-tradition">Portugal · Alentejo</span>
-        <div class="ritual-name">A Mesa</div>
-        <span class="ritual-origin">The Table — Communal Harvest Meal</span>
-        <p class="ritual-desc">In the Alentejo tradition, the meal is never merely eating. It is the gathering that dissolves the boundary between work and rest, between guest and household. Mariana's table follows the agricultural week — what was harvested, what was pressed, what was salted in the cool of the granite larder.</p>
-        <span class="ritual-hour">Evening · Harvest season · September–November</span>
-      </div>
-
-      <div class="attune-ritual reveal rd2">
-        <span class="ritual-tradition">Japan · Shinto</span>
-        <div class="ritual-name">Yoake no Sōji</div>
-        <span class="ritual-origin">The Dawn Cleaning — Ritual of Purification</span>
-        <p class="ritual-desc">At Shirakawa-gō, the day begins not with breakfast but with the sweeping — every threshold, every corridor, every step. It is not cleaning. It is an act of attention, of care made visible. Tanaka-san has swept the same stones for forty years. The guest who joins him sweeps them once. Both acts matter.</p>
-        <span class="ritual-hour">First light · Daily · All seasons</span>
-      </div>
-
-      <div class="attune-ritual reveal rd1">
-        <span class="ritual-tradition">Bulgaria · Rhodope</span>
-        <div class="ritual-name">Izvorite</div>
-        <span class="ritual-origin">The Springs — Ritual of the Living Water</span>
-        <p class="ritual-desc">High in the Rila meadows, Elitsa leads the weekly ascent to the mountain springs — sources that have never been mapped, only known. The ritual of drinking, washing, and sitting in silence beside moving water is older than the monastery below. It requires nothing of you but your presence.</p>
-        <span class="ritual-hour">Weekly · Sunrise · Spring and Summer</span>
-      </div>
-
-      <div class="attune-ritual reveal rd2">
-        <span class="ritual-tradition">Scotland · Celtic</span>
-        <div class="ritual-name">An Caithris</div>
-        <span class="ritual-origin">The Vigil — Sitting with the Turning Year</span>
-        <p class="ritual-desc">At the solstices and equinoxes, guests at Ardnamurchan are invited to the headland for the ancient vigil — to sit with the exact moment of the year's turning, in wind and dark, until the light changes. No performance. No explanation. The land does the work.</p>
-        <span class="ritual-hour">Solstice &amp; Equinox · Dusk to Dawn</span>
-      </div>
-
-      <div class="attune-ritual reveal rd3">
-        <span class="ritual-tradition">Portugal · Moorish–Roman</span>
-        <div class="ritual-name">O Banho</div>
-        <span class="ritual-origin">The Bath — Waters of the Roman Thermae</span>
-        <p class="ritual-desc">The bathing practice at Alentejo draws from the layered inheritance of the site — Roman thermal knowledge, Moorish water philosophy, and the agricultural tradition of the body restored after labour. It follows a precise sequence of temperature, breath, and silence developed over the lifetime of the estate.</p>
-        <span class="ritual-hour">Late afternoon · Daily · All seasons</span>
-      </div>
-
-    </div>
-
-    <!-- Pull quote -->
-    <div class="attune-statement reveal">
-      <span class="attune-statement-label">Jameson Duburgh<br>On Attunement</span>
-      <p class="attune-statement-text">
-        "The rituals of a place are not its decoration. They are its <em>language</em> — the way it has always spoken to the people who live within it. To participate in them, even briefly, even imperfectly, is to begin to hear what the place is saying. That hearing is what we call attunement. It is, we believe, the only form of rest that truly restores."
-      </p>
-    </div>
-
-  </div>
-</section>
-
-<!-- THE COMPACT -->
-<section class="compact" id="compact">
-  <div class="compact-inner">
-    <span class="compact-ornament reveal"></span>
-    <span class="section-label reveal" style="text-align:center;">What We Ask in Return</span>
-    <h2 class="reveal rd1">A guest is not a customer.<br>A sacred bond <em>requires</em><br>something of both sides.</h2>
-    <p class="compact-intro reveal rd2">Duburghs is not a service. It is a reciprocal relationship. When a place and its people receive you, they ask something of you in return: not money alone, but attention, respect, and a willingness to be changed.</p>
-    <div class="compact-terms">
-      <div class="compact-term reveal">
-        <span class="compact-term-num">The First Term</span>
-        <h3>Come in Presence</h3>
-        <p>Arrive without the expectation that the experience will be what you imagined. The place is not performing for you. It is simply being itself, and it asks you to be simply yourself in return.</p>
-      </div>
-      <div class="compact-term reveal rd1">
-        <span class="compact-term-num">The Second Term</span>
-        <h3>Leave a Trace of Care</h3>
-        <p>Every Duburghs guest is invited to contribute to the stewardship of the place — in ways large or small, practical or symbolic. The act of care is itself part of the ritual of belonging.</p>
-      </div>
-      <div class="compact-term reveal rd2">
-        <span class="compact-term-num">The Third Term</span>
-        <h3>Carry the Story</h3>
-        <p>You will leave knowing something you did not know before — a name, a practice, a quality of light at a particular hour. We ask that you carry it honourably and share it thoughtfully.</p>
-      </div>
-    </div>
-    <p class="compact-closing reveal rd3">"In the old world, a threshold crossed was a bond made.<br>That is still what we believe."<br><span style="font-family:'Cinzel',serif;font-weight:300;font-size:.52rem;letter-spacing:.4em;text-transform:uppercase;color:var(--earth);display:block;margin-top:1.5rem;">— Jameson Duburgh</span></p>
-  </div>
-</section>
-
-<!-- VOICES OF THE LAND -->
-<section class="voices">
-  <div class="voices-inner">
-    <div class="voices-header">
-      <span class="section-label reveal">Voices of the Places</span>
-      <h2 class="reveal rd1">What the land <em>says</em>,<br>when you stop to listen.</h2>
-    </div>
-    <div class="voices-grid">
-      <div class="voice reveal">
-        <p class="voice-text">"The peat here was cut by my grandfather's grandfather. When you burn it, you are burning twenty thousand years. That is the smell of this place. No candle will ever replicate it."</p>
-        <span class="voice-source">Seòras MacPhàil · Ardnamurchan</span>
-      </div>
-      <div class="voice central reveal rd1">
-        <p class="voice-text">"A place that is truly itself does not need to explain itself to you. It simply waits — with the patience of something very old — for you to become quiet enough to hear it."</p>
-        <span class="voice-source">Jameson Duburgh · Founder</span>
-      </div>
-      <div class="voice reveal rd2">
-        <p class="voice-text">"In Alentejo, we say: the cork tree gives once every nine years, and the oak does not suffer for the giving. This is what we try to teach — how to be generous without being diminished."</p>
-        <span class="voice-source">Mariana Fonseca · Alentejo</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- REGISTER -->
-<section class="register" id="register">
-  <div class="register-inner">
-    <span class="reg-ornament reveal">· · ·</span>
-    <span class="section-label reveal" style="text-align:center;">First Access</span>
-    <h2 class="reveal rd1">Begin the<br><em>conversation.</em></h2>
-    <p class="reveal rd2">Duburghs properties are opened by private introduction. We do not take direct bookings. We begin with a conversation — about who you are, what you are seeking, and which sanctuary may receive you well.</p>
-    <div class="reg-form reveal rd3">
-      <input type="email" placeholder="Your correspondence address…">
-      <button>Write to us</button>
-    </div>
-    <p class="reg-note reveal rd4">We respond personally to every enquiry · No automated correspondence · Complete discretion</p>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-inner">
-    <div class="footer-links">
-      <a href="#">Philosophy</a>
-      <a href="#">Sanctuaries</a>
-      <a href="#">The Keepers</a>
-      <a href="#">Stewardship</a>
-    </div>
-    <div class="footer-logo">
-      <span class="footer-logo-main">Duburghs</span>
-      <span class="footer-logo-sub">Where places receive you</span>
-    </div>
-    <div class="footer-right">
-      © MMXXVI Duburgh Estates<br>All sanctuaries operate under<br>principal partnership agreements
-    </div>
-  </div>
-</footer>
-
-<script>
-const dot=document.getElementById('cur-dot'),ring=document.getElementById('cur-ring');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
-(function loop(){rx+=(mx-rx)*.11;ry+=(my-ry)*.11;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
-document.querySelectorAll('a,button,.keeper-card,.sanct-item,.voice').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{dot.style.width='12px';dot.style.height='12px';ring.style.width='54px';ring.style.height='54px';});
-  el.addEventListener('mouseleave',()=>{dot.style.width='6px';dot.style.height='6px';ring.style.width='32px';ring.style.height='32px';});
-});
-const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.1});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-const termObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.3});
-document.querySelectorAll('.compact-term').forEach(el=>termObs.observe(el));
-document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}});});
-</script>
 </body>
 </html>
